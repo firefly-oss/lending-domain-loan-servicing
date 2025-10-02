@@ -25,6 +25,7 @@ public class LoanServicingServiceImpl implements LoanServicingService {
     public Mono<SagaResult> submitLoanCase(SubmitLoanCaseCommand command) {
         StepInputs inputs = StepInputs.builder()
                 .forStep(RegisterLoanServicingSaga::registerLoanServicing, command.getLoanServicingCase())
+                .forStep(RegisterLoanServicingSaga::registerLoanAccrual, command.getLoanAccrual())
                 .build();
 
         return engine.execute(RegisterLoanServicingSaga.class, inputs);

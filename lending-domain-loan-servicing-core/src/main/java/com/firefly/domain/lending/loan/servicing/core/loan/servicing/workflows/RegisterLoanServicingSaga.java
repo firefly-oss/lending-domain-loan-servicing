@@ -1,7 +1,9 @@
 package com.firefly.domain.lending.loan.servicing.core.loan.servicing.workflows;
 
 import com.firefly.common.domain.cqrs.command.CommandBus;
+import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RegisterLoanAccrualCommand;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RegisterLoanServicingCaseCommand;
+import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RemoveLoanAccrualCommand;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RemoveLoanServicingCommand;
 import com.firefly.transactional.annotations.Saga;
 import com.firefly.transactional.annotations.SagaStep;
@@ -13,6 +15,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+import static com.firefly.domain.lending.loan.servicing.core.loan.utils.constants.GlobalConstants.CTX_LOAN_ACCRUAL_ID;
 import static com.firefly.domain.lending.loan.servicing.core.loan.utils.constants.GlobalConstants.CTX_LOAN_SERVICING_ID;
 import static com.firefly.domain.lending.loan.servicing.core.loan.utils.constants.RegisterLoanServicingConstants.*;
 
@@ -37,6 +40,16 @@ public class RegisterLoanServicingSaga {
 
     public Mono<Void> removeLoanServicing(UUID loanApplicationId) {
         return commandBus.send(new RemoveLoanServicingCommand(loanApplicationId));
+    }
+
+    @SagaStep(id = STEP_REGISTER_LOAN_ACCRUAL, compensate = COMPENSATE_REMOVE_LOAN_ACCRUAL, dependsOn = STEP_REGISTER_LOAN_SERVICING)
+    @StepEvent(type = EVENT_LOAN_ACCRUAL_REGISTERED)
+    public Mono<UUID> registerLoanAccrual(RegisterLoanAccrualCommand cmd, SagaContext ctx) {
+        return commandBus.send(cmd.withLoanServicingCaseId(ctx.getVariableAs(CTX_LOAN_SERVICING_ID, UUID.class)));
+    }
+
+    public Mono<Void> removeLoanAccrual(UUID loanAccrualId, SagaContext ctx) {
+        return commandBus.send(new RemoveLoanAccrualCommand(ctx.getVariableAs(CTX_LOAN_SERVICING_ID, UUID.class), loanAccrualId));
     }
 
 }

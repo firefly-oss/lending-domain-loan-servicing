@@ -9,5 +9,12 @@ import java.util.UUID;
 public class SubmitLoanCaseCommand implements Command<UUID> {
 
     private RegisterLoanServicingCaseCommand loanServicingCase;
+    private RegisterLoanAccrualCommand loanAccrual;
+    private RegisterLoanDisbursementCommand loanDisbursement;
+    private RegisterLoanRateChangeCommand loanRateChange;
+    private RegisterLoanRepaymentRecordCommand loanRepaymentRecord;
+    private RegisterLoanRepaymentScheduleCommand loanRepaymentSchedule;
+    private RegisterLoanServicingEventCommand loanServicingEvent;
+
 
 }
