@@ -2,9 +2,18 @@ package com.firefly.domain.lending.loan.servicing.core.loan.servicing.services;
 
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.*;
 import com.firefly.transactional.core.SagaResult;
+import jakarta.validation.Valid;
 import reactor.core.publisher.Mono;
 
 public interface LoanServicingService {
+
+    /**
+     * Submits a loan case by processing the provided command details.
+     *
+     * @param command the command containing the necessary information to submit the loan case
+     * @return a {@code Mono<SagaResult>} representing the result of the loan case submission process
+     */
+    Mono<SagaResult> submitLoanCase(SubmitLoanCaseCommand command);
 
     /**
      * Handles the disbursement of a loan based on the provided loan identifier and command details.

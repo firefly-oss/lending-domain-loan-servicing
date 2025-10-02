@@ -1,7 +1,9 @@
 package com.firefly.domain.lending.loan.servicing.infra;
 
-import com.firefly.common.product.sdk.invoker.ApiClient;
+import com.firefly.core.lending.servicing.sdk.api.LoanServicingCaseApi;
+import com.firefly.core.lending.servicing.sdk.invoker.ApiClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,9 +17,14 @@ public class ClientFactory {
 
     @Autowired
     public ClientFactory(
-            ProductMgmtProperties productMgmtProperties) {
+            LoanServicingProperties loanServicingProperties) {
         this.apiClient = new ApiClient();
-        this.apiClient.setBasePath(productMgmtProperties.getBasePath());
+        this.apiClient.setBasePath(loanServicingProperties.getBasePath());
+    }
+
+    @Bean
+    public LoanServicingCaseApi loanServicingCaseApi(){
+        return new LoanServicingCaseApi(apiClient);
     }
 
 }

@@ -18,6 +18,13 @@ public class LoanServicingController {
 
     private final LoanServicingService loanServicingService;
 
+    @Operation(summary = "Submit loan case", description = "Submit a new loan case.")
+    @PostMapping
+    public Mono<ResponseEntity<Object>> submitApplication(@Valid @RequestBody SubmitLoanCaseCommand command) {
+        return loanServicingService.submitLoanCase(command)
+                .thenReturn(ResponseEntity.ok().build());
+    }
+
     @Operation(summary = "Disburse loan", description = "Disburse to target account on value date; update principal.")
     @PostMapping("/{loanId}/disburse")
     public Mono<ResponseEntity<Object>> disburse(@PathVariable String loanId, @Valid @RequestBody DisburseCommand command) {
@@ -141,7 +148,7 @@ public class LoanServicingController {
     @GetMapping("/{loanId}")
     public Mono<ResponseEntity<Object>> getLoanDetails(@PathVariable String loanId) {
         return loanServicingService.getLoanDetails(loanId)
-                .map(data -> ResponseEntity.ok(data));
+                .map(ResponseEntity::ok);
     }
 
 }
