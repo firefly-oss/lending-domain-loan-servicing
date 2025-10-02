@@ -27,6 +27,7 @@ public class LoanServicingServiceImpl implements LoanServicingService {
                 .forStep(RegisterLoanServicingSaga::registerLoanServicing, command.getLoanServicingCase())
                 .forStep(RegisterLoanServicingSaga::registerLoanAccrual, command.getLoanAccrual())
                 .forStep(RegisterLoanServicingSaga::registerLoanDisbursement, command.getLoanDisbursement())
+                .forStep(RegisterLoanServicingSaga::registerLoanRateChange, command.getLoanRateChange())
                 .build();
 
         return engine.execute(RegisterLoanServicingSaga.class, inputs);

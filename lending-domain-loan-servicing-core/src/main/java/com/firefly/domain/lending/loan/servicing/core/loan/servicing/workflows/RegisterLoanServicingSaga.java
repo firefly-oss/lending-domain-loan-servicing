@@ -3,9 +3,11 @@ package com.firefly.domain.lending.loan.servicing.core.loan.servicing.workflows;
 import com.firefly.common.domain.cqrs.command.CommandBus;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RegisterLoanAccrualCommand;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RegisterLoanDisbursementCommand;
+import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RegisterLoanRateChangeCommand;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RegisterLoanServicingCaseCommand;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RemoveLoanAccrualCommand;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RemoveLoanDisbursementCommand;
+import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RemoveLoanRateChangeCommand;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RemoveLoanServicingCommand;
 import com.firefly.transactional.annotations.Saga;
 import com.firefly.transactional.annotations.SagaStep;
@@ -62,6 +64,16 @@ public class RegisterLoanServicingSaga {
 
     public Mono<Void> removeLoanDisbursement(UUID loanDisbursementId, SagaContext ctx) {
         return commandBus.send(new RemoveLoanDisbursementCommand(ctx.getVariableAs(CTX_LOAN_SERVICING_ID, UUID.class), loanDisbursementId));
+    }
+
+    @SagaStep(id = STEP_REGISTER_LOAN_RATE_CHANGE, compensate = COMPENSATE_REMOVE_LOAN_RATE_CHANGE, dependsOn = STEP_REGISTER_LOAN_SERVICING)
+    @StepEvent(type = EVENT_LOAN_RATE_CHANGE_REGISTERED)
+    public Mono<UUID> registerLoanRateChange(RegisterLoanRateChangeCommand cmd, SagaContext ctx) {
+        return commandBus.send(cmd.withLoanServicingCaseId(ctx.getVariableAs(CTX_LOAN_SERVICING_ID, UUID.class)));
+    }
+
+    public Mono<Void> removeLoanRateChange(UUID loanRateChangeId, SagaContext ctx) {
+        return commandBus.send(new RemoveLoanRateChangeCommand(ctx.getVariableAs(CTX_LOAN_SERVICING_ID, UUID.class), loanRateChangeId));
     }
 
 }
