@@ -1,6 +1,7 @@
 package com.firefly.domain.lending.loan.servicing.infra;
 
 import com.firefly.core.lending.servicing.sdk.api.LoanAccrualApi;
+import com.firefly.core.lending.servicing.sdk.api.LoanDisbursementApi;
 import com.firefly.core.lending.servicing.sdk.api.LoanServicingCaseApi;
 import com.firefly.core.lending.servicing.sdk.invoker.ApiClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,11 @@ public class ClientFactory {
     @Bean
     public LoanAccrualApi loanAccrualApi(){
         return new LoanAccrualApi(apiClient);
+    }
+
+    @Bean
+    public LoanDisbursementApi loanDisbursementApi(){
+        return new LoanDisbursementApi(apiClient);
     }
 
 }

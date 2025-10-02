@@ -17,6 +17,6 @@ public class RemoveLoanServicingHandler extends CommandHandler<RemoveLoanServici
 
     @Override
     protected Mono<Void> doHandle(RemoveLoanServicingCommand cmd) {
-        return loanServicingCaseApi.delete(cmd.loanServicingId()).then();
+        return loanServicingCaseApi.deleteServicingCase(cmd.loanServicingId()).then();
     }
 }

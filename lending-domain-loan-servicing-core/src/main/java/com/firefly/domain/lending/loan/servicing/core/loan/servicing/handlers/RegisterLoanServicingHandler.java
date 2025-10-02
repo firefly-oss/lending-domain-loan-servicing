@@ -20,7 +20,7 @@ public class RegisterLoanServicingHandler extends CommandHandler<RegisterLoanSer
 
     @Override
     protected Mono<UUID> doHandle(RegisterLoanServicingCaseCommand cmd) {
-        return loanServicingCaseApi.create(cmd, UUID.randomUUID().toString())
+        return loanServicingCaseApi.createServicingCase(cmd, UUID.randomUUID().toString())
                 .mapNotNull(naturalPersonDTO ->
                         Objects.requireNonNull(Objects.requireNonNull(naturalPersonDTO)).getLoanServicingCaseId());
     }

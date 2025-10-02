@@ -20,7 +20,7 @@ public class RegisterLoanAccrualHandler extends CommandHandler<RegisterLoanAccru
 
     @Override
     protected Mono<UUID> doHandle(RegisterLoanAccrualCommand cmd) {
-        return loanAccrualApi.create6(cmd.getLoanServicingCaseId(), cmd, UUID.randomUUID().toString())
+        return loanAccrualApi.createAccrual(cmd.getLoanServicingCaseId(), cmd, UUID.randomUUID().toString())
                 .mapNotNull(response ->
                         Objects.requireNonNull(Objects.requireNonNull(response)).getLoanAccrualId());
     }

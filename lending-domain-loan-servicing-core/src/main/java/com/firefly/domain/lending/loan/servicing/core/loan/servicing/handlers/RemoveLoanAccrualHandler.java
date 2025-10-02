@@ -17,6 +17,6 @@ public class RemoveLoanAccrualHandler extends CommandHandler<RemoveLoanAccrualCo
 
     @Override
     protected Mono<Void> doHandle(RemoveLoanAccrualCommand cmd) {
-        return loanAccrualApi.delete6(cmd.loanServicingCaseId(), cmd.loanAccrualId()).then();
+        return loanAccrualApi.deleteAccrual(cmd.loanServicingCaseId(), cmd.loanAccrualId()).then();
     }
 }
