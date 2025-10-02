@@ -10,5 +10,10 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class RegisterLoanRepaymentScheduleCommand extends LoanRepaymentScheduleDTO implements Command<UUID> {
+    private UUID loanServicingCaseId;
 
+    public RegisterLoanRepaymentScheduleCommand withLoanServicingCaseId(UUID loanServicingCaseId) {
+        this.loanServicingCaseId = loanServicingCaseId;
+        return this;
+    }
 }

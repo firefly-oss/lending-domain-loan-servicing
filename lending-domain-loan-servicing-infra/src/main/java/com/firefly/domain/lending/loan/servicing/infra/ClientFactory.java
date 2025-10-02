@@ -3,7 +3,10 @@ package com.firefly.domain.lending.loan.servicing.infra;
 import com.firefly.core.lending.servicing.sdk.api.LoanAccrualApi;
 import com.firefly.core.lending.servicing.sdk.api.LoanDisbursementApi;
 import com.firefly.core.lending.servicing.sdk.api.LoanRateChangeApi;
+import com.firefly.core.lending.servicing.sdk.api.LoanRepaymentRecordApi;
+import com.firefly.core.lending.servicing.sdk.api.LoanRepaymentScheduleApi;
 import com.firefly.core.lending.servicing.sdk.api.LoanServicingCaseApi;
+import com.firefly.core.lending.servicing.sdk.api.LoanServicingEventApi;
 import com.firefly.core.lending.servicing.sdk.invoker.ApiClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -43,6 +46,21 @@ public class ClientFactory {
     @Bean
     public LoanRateChangeApi loanRateChangeApi(){
         return new LoanRateChangeApi(apiClient);
+    }
+
+    @Bean
+    public LoanRepaymentRecordApi loanRepaymentRecordApi(){
+        return new LoanRepaymentRecordApi(apiClient);
+    }
+
+    @Bean
+    public LoanRepaymentScheduleApi loanRepaymentScheduleApi(){
+        return new LoanRepaymentScheduleApi(apiClient);
+    }
+
+    @Bean
+    public LoanServicingEventApi loanServicingEventApi(){
+        return new LoanServicingEventApi(apiClient);
     }
 
 }

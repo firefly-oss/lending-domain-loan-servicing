@@ -4,11 +4,17 @@ import com.firefly.common.domain.cqrs.command.CommandBus;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RegisterLoanAccrualCommand;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RegisterLoanDisbursementCommand;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RegisterLoanRateChangeCommand;
+import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RegisterLoanRepaymentRecordCommand;
+import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RegisterLoanRepaymentScheduleCommand;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RegisterLoanServicingCaseCommand;
+import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RegisterLoanServicingEventCommand;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RemoveLoanAccrualCommand;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RemoveLoanDisbursementCommand;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RemoveLoanRateChangeCommand;
+import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RemoveLoanRepaymentRecordCommand;
+import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RemoveLoanRepaymentScheduleCommand;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RemoveLoanServicingCommand;
+import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RemoveLoanServicingEventCommand;
 import com.firefly.transactional.annotations.Saga;
 import com.firefly.transactional.annotations.SagaStep;
 import com.firefly.transactional.annotations.StepEvent;
@@ -74,6 +80,36 @@ public class RegisterLoanServicingSaga {
 
     public Mono<Void> removeLoanRateChange(UUID loanRateChangeId, SagaContext ctx) {
         return commandBus.send(new RemoveLoanRateChangeCommand(ctx.getVariableAs(CTX_LOAN_SERVICING_ID, UUID.class), loanRateChangeId));
+    }
+
+    @SagaStep(id = STEP_REGISTER_LOAN_REPAYMENT_RECORD, compensate = COMPENSATE_REMOVE_LOAN_REPAYMENT_RECORD, dependsOn = STEP_REGISTER_LOAN_SERVICING)
+    @StepEvent(type = EVENT_LOAN_REPAYMENT_RECORD_REGISTERED)
+    public Mono<UUID> registerLoanRepaymentRecord(RegisterLoanRepaymentRecordCommand cmd, SagaContext ctx) {
+        return commandBus.send(cmd.withLoanServicingCaseId(ctx.getVariableAs(CTX_LOAN_SERVICING_ID, UUID.class)));
+    }
+
+    public Mono<Void> removeLoanRepaymentRecord(UUID loanRepaymentRecordId, SagaContext ctx) {
+        return commandBus.send(new RemoveLoanRepaymentRecordCommand(ctx.getVariableAs(CTX_LOAN_SERVICING_ID, UUID.class), loanRepaymentRecordId));
+    }
+
+    @SagaStep(id = STEP_REGISTER_LOAN_REPAYMENT_SCHEDULE, compensate = COMPENSATE_REMOVE_LOAN_REPAYMENT_SCHEDULE, dependsOn = STEP_REGISTER_LOAN_SERVICING)
+    @StepEvent(type = EVENT_LOAN_REPAYMENT_SCHEDULE_REGISTERED)
+    public Mono<UUID> registerLoanRepaymentSchedule(RegisterLoanRepaymentScheduleCommand cmd, SagaContext ctx) {
+        return commandBus.send(cmd.withLoanServicingCaseId(ctx.getVariableAs(CTX_LOAN_SERVICING_ID, UUID.class)));
+    }
+
+    public Mono<Void> removeLoanRepaymentSchedule(UUID loanRepaymentScheduleId, SagaContext ctx) {
+        return commandBus.send(new RemoveLoanRepaymentScheduleCommand(ctx.getVariableAs(CTX_LOAN_SERVICING_ID, UUID.class), loanRepaymentScheduleId));
+    }
+
+    @SagaStep(id = STEP_REGISTER_LOAN_SERVICING_EVENT, compensate = COMPENSATE_REMOVE_LOAN_SERVICING_EVENT, dependsOn = STEP_REGISTER_LOAN_SERVICING)
+    @StepEvent(type = EVENT_LOAN_SERVICING_EVENT_REGISTERED)
+    public Mono<UUID> registerLoanServicingEvent(RegisterLoanServicingEventCommand cmd, SagaContext ctx) {
+        return commandBus.send(cmd.withLoanServicingCaseId(ctx.getVariableAs(CTX_LOAN_SERVICING_ID, UUID.class)));
+    }
+
+    public Mono<Void> removeLoanServicingEvent(UUID loanServicingEventId, SagaContext ctx) {
+        return commandBus.send(new RemoveLoanServicingEventCommand(ctx.getVariableAs(CTX_LOAN_SERVICING_ID, UUID.class), loanServicingEventId));
     }
 
 }

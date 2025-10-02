@@ -10,5 +10,10 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class RegisterLoanServicingEventCommand extends LoanServicingEventDTO implements Command<UUID> {
+    private UUID loanServicingCaseId;
 
+    public RegisterLoanServicingEventCommand withLoanServicingCaseId(UUID loanServicingCaseId) {
+        this.loanServicingCaseId = loanServicingCaseId;
+        return this;
+    }
 }
