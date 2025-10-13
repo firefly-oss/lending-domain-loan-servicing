@@ -1,6 +1,6 @@
 package com.firefly.domain.lending.loan.servicing.core.loan.servicing.workflows;
 
-import com.firefly.common.domain.cqrs.command.CommandBus;
+import com.firefly.common.cqrs.command.CommandBus;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RegisterLoanAccrualCommand;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RegisterLoanDisbursementCommand;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RegisterLoanRateChangeCommand;

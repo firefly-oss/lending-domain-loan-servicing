@@ -1,7 +1,7 @@
 package com.firefly.domain.lending.loan.servicing.core.loan.servicing.handlers;
 
-import com.firefly.common.domain.cqrs.annotations.CommandHandlerComponent;
-import com.firefly.common.domain.cqrs.command.CommandHandler;
+import com.firefly.common.cqrs.annotations.CommandHandlerComponent;
+import com.firefly.common.cqrs.command.CommandHandler;
 import com.firefly.core.lending.servicing.sdk.api.LoanServicingEventApi;
 import com.firefly.domain.lending.loan.servicing.core.loan.servicing.commands.RemoveLoanServicingEventCommand;
 import reactor.core.publisher.Mono;
