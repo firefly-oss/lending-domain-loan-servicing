@@ -1,6 +1,5 @@
 package com.firefly.domain.lending.loan.servicing.web;
 
-import com.firefly.transactional.annotations.EnableTransactionalEngine;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -9,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.web.reactive.config.EnableWebFlux;
+import com.firefly.transactional.shared.annotations.EnableTransactionalEngine;
 
 @SpringBootApplication(
         scanBasePackages = {
